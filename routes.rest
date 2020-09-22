@@ -1,0 +1,16 @@
+### access to get users
+GET http://localhost:3000/user
+###
+### access to get by id users
+GET http://localhost:3000/user/1
+###
+### insert to  users
+POST  http://localhost:3000/user
+Content-Type: 'application/json'
+
+{
+    "userName": "jario",
+     "userEmail": "jariodesa@gmail.com", 
+     "userPassword": "teste"
+}
+###

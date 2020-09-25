@@ -38,13 +38,13 @@ module.exports = {
 
         },
         async update(id, iditem, accountObj) {
-            let query = accountMongoose.where({ _id: objectId(id) });
 
-            return query.findOne((error, account) => {
+            let query = accountMongoose.where({ accountId: id });
+            return await query.findOne((error, account) => {
                 if (error) throw new InternalServerError(`error add account: ${error}`);
                 const lsitAccount = account.debts.map(account => account)
 
-                const lista = lsitAccount.map((list, index) => {
+                const lista = lsitAccount.map((list) => {
                     if (list._id == iditem) {
                         list.listDebts.push(accountObj)
                     }
@@ -52,20 +52,31 @@ module.exports = {
                 account.save()
             });
         },
-        async delete(id, iditem) {
-            let query = accountMongoose.where({ _id: objectId(id) });
-
+        async delete(id, iditem, item) {
+            let query = accountMongoose.where({ accountId: id });
             if (iditem == undefined) {
                 return await query.deleteOne((err, account) => {
                     if (err) throw new InternalServerError(err);
                 });
             }
-            return query.findOne((error, account) => {
+            return await query.findOne((error, account) => {
                 if (error) throw new InternalServerError(`error by accountId ${error}`);
-                const lsitAccount = account.debts.map(account => account.listDebts)
-                const list = lsitAccount.map((list) => {
-                    list.pull(objectId(iditem))
+                const lsitAccount = account.debts.map(account => account)
+
+                const listItem = lsitAccount.map((list) => {
+                    if (list._id == iditem) {
+                        // list.pull(iditem)
+
+                        list.listDebts.map(listadebts => {
+                            listadebts.pull({ _id: objectId(item) })
+                        })
+                        // console.log(listadebts.pull(objectId(item)))
+                    }
+                    // ls.pull(iditem)
+
                 })
+                //  listItem.pull({ _id: item })
+
                 account.save()
             });
         }

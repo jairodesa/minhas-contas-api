@@ -36,7 +36,6 @@ module.exports = {
     },
     async login(req, res) {
         try {
-            console.log(req.user)
             const accessToken = tokens.access.created(req.user.id);
             const refreshToken = await tokens.refresh.created(req.user.id);
             const user = {

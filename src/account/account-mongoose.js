@@ -47,6 +47,9 @@ const accountSchema = new mongoose.Schema({
             note: {
                 type: String
             },
+            DueDate: {
+                type: Date,
+            },
             accountDate: {
                 type: Date,
                 default: Date.now

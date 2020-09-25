@@ -8,7 +8,7 @@ module.exports = {
         try {
             const account = await Account.add(accountObject);
 
-            res.status(201).json(Account);
+            res.status(201).json(account);
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -42,10 +42,10 @@ module.exports = {
         }
     },
     async delete(req, res) {
-        const { id, iditem } = req.query
+        const { id, iditem, item } = req.query
 
         try {
-            await Account.delete(id, iditem);
+            await Account.delete(id, iditem, item);
             res.status(200).json();
         } catch (erro) {
             res.status(500).json({ erro: erro });

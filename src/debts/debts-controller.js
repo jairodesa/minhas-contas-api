@@ -1,19 +1,18 @@
-const { debts } = require('./debts-mongoose');
+const { debts } = require('./debts-model');
 module.exports = {
     async add(req, res) {
-
         const debt = req.body;
-        console.log(debt)
         try {
-            const debts = await debts.add(debt);
-            res.status(201).json(debt);
+            const newDebts = await debts.add(debt);
+            res.status(201).json(newDebts);
         } catch (error) {
+            console.log(error)
             res.status(500).json({ error: error.message });
         }
     },
     async findById(req, res) {
         try {
-            const debtsList = await debts.listById(req.params.accountid);
+            const debtsList = await debts.listById(req.params.accountId);
             res.status(200).json(debtsList);
         } catch (error) {
             res.status(500).json({ error: error.message });

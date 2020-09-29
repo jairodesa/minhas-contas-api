@@ -7,19 +7,28 @@ module.exports = {
         async add(debt) {
             try {
 
-                const debts = new debtsMongoose({
-                    debts: debt
+                const newAccount = new debtsMongoose({
+                    accountId: debt.accountId,
+                    dueDate: debt.dueDate,
+                    name: debt.name,
+                    note: debt.note,
+                    value: debt.value
+
                 })
-                debts.save()
+                await newAccount.save()
                 return newAccount
             } catch (error) {
+                console.log(error)
                 throw new InternalServerError('Error adding debts!' + error);
+
             }
         },
         async listById(accountId) {
+            console.log(accountId)
             let query = debtsMongoose.where({ accountId: accountId });
             return await query.find((error, debts) => {
                 if (error) throw new InternalServerError(`error by accountId ${error}`);
+
                 return debts
             });
         },
